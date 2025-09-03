@@ -1,0 +1,65 @@
+# 🏥 MediSmart AI – Smart Hospital Management with AI  
+
+![Hospital AI Banner](https://img.shields.io/badge/AI%20Powered%20Healthcare-Smart%20Hospital-blueviolet?style=for-the-badge&logo=ai)  
+
+## 👥 Team: **Code Storm**  
+- 👩‍💻 Akshatha – *4SO23CS011*  
+- 👩‍💻 Alisha A Pinto – *4SO23CS016*  
+- 👩‍💻 Ashwini Shenoy B – *4SO23CS042*  
+
+---
+
+## 🚀 Problem Statement  
+Patients face **long waiting times** and **difficulty booking appointments** due to poor scheduling and limited doctor availability. Doctors, on the other hand, deal with **uneven workloads**. This leads to inefficiency and reduced patient satisfaction.  
+
+---
+
+## 💡 Our Solution  
+⚡ **MediSmart AI** is a smart hospital management system that uses **Artificial Intelligence** to:  
+- 📅 Optimize **doctor availability**  
+- 🤖 Allocate appointments intelligently  
+- ⏳ Reduce waiting times  
+- 🏥 Improve hospital efficiency  
+- 😀 Enhance patient satisfaction  
+
+---
+
+## 🛠️ Tech Stack  
+
+### 🌐 Frontend  
+![HTML5](https://img.icons8.com/color/48/html-5.png)  ![CSS3](https://img.icons8.com/color/48/css3.png)  ![Bootstrap](https://img.icons8.com/color/48/bootstrap.png)  ![React](https://img.icons8.com/color/48/react-native.png)  
+
+### ⚙️ Backend  
+![Python](https://img.icons8.com/color/48/python.png)  ![Django](https://img.icons8.com/color/48/django.png)  
+
+### 🗄️ Database  
+![SQLite](https://www.vectorlogo.zone/logos/sqlite/sqlite-icon.svg)  
+
+### 🤖 Artificial Intelligence  
+![Scikit-learn](https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg)  
+
+---
+
+## 🎯 Key Objectives  
+✔️ Reduce **patient wait times**  
+✔️ Improve **hospital efficiency**  
+✔️ Ensure **better resource utilization**  
+✔️ Enhance **overall patient satisfaction**  
+
+---
+
+## 🔄 System Workflow  
+
+1️⃣ **Patient Request** – Submit appointment request  
+2️⃣ **AI Scheduler** – Predicts doctor availability (Scikit-learn)  
+3️⃣ **Intelligent Allocation** – Assigns optimal doctor & slot  
+4️⃣ **Confirmation** – Patient receives booking confirmation  
+
+---
+
+## 🤝 Contribution  
+Want to contribute? Fork this repo, create a branch, and submit a PR 🚀  
+
+---
+
+🔗 *This project was built as part of the **Code Storm** team initiative.*  
