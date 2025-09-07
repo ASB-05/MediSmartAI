@@ -1,0 +1,324 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f9fbfc;
+    color: #222;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0077b6;
+}
+
+.logo span {
+    color: #009688;
+}
+
+.navbar a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar a:hover,
+.navbar a.active {
+    color: #0077b6;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 60px 10%;
+    background: linear-gradient(135deg, #e6f7ff, #f9ffff);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: #003366;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Domains Grid */
+.domains-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 60px 10%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.domain-card {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    text-align: center;
+    padding-bottom: 15px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.domain-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.img-container {
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.img-container img:hover {
+    transform: scale(1.05);
+}
+
+.domain-card h3 {
+    margin: 15px 0;
+    color: #0077b6;
+}
+
+/* Add Doctor Button */
+.add-doctor-btn {
+    background: linear-gradient(135deg, #0077b6, #009688);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.add-doctor-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 119, 182, 0.3);
+}
+
+/* Doctor Container */
+.doctor-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+    overflow: visible;
+}
+
+/* Doctor Card */
+.doctor-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px;
+    border-radius: 8px;
+    width: 180px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    background-color: #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+}
+
+.doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.doctor-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 5px;
+}
+
+.doctor-card h4 {
+    font-size: 16px;
+    margin: 5px 0;
+    color: #0077b6;
+}
+
+.doctor-card p {
+    font-size: 12px;
+    margin: 2px 0;
+    color: #555;
+}
+
+/* Submit Button */
+.doctor-card .submit-btn {
+    margin-top: 8px;
+    padding: 6px 12px;
+    background-color: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.doctor-card .submit-btn:hover {
+    background-color: #0b5ed7;
+    transform: scale(1.05);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    margin: 10% auto;
+    padding: 30px 20px;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
+
+.modal-content h2 {
+    color: #0077b6;
+    margin-bottom: 20px;
+}
+
+.modal-content input,
+.modal-content button {
+    width: 85%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.modal-content button {
+    background: linear-gradient(135deg, #0077b6, #009688);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-content button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 119, 182, 0.3);
+}
+
+/* Placeholder */
+.add-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    background: #fff;
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 500;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.add-placeholder:hover {
+    background: #e6f7ff;
+    border-color: #0077b6;
+    color: #0077b6;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #003366;
+    color: #fff;
+}
+
+/* Add Doctor & View Doctors Buttons - Unified Style */
+.add-doctor-btn,
+.view-doctors-btn {
+    width: 80%;               /* same width */
+    padding: 10px 20px;       /* same padding */
+    border-radius: 12px;      /* same rounded corners */
+    font-weight: 600;         /* same font weight */
+    font-size: 1rem;          /* same font size */
+    border: none;
+    cursor: pointer;
+    display: block;
+    margin: 10px auto 0 auto; /* centers and adds margin on top */
+    transition: all 0.3s ease;
+    color: #fff;
+}
+
+/* Individual Gradients */
+.add-doctor-btn {
+    background: linear-gradient(135deg, #0077b6, #009688);
+}
+
+.view-doctors-btn {
+    background: linear-gradient(135deg, #009688, #0077b6);
+}
+
+/* Hover Effects */
+.add-doctor-btn:hover,
+.view-doctors-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 119, 182, 0.3);
+}
+
