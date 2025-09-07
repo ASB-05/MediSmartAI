@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> cb845cc35c7c670575b6579e7d7152037d56101c
 # 🏥 MediSmart AI – Smart Hospital Management with AI  
 
 ![Hospital AI Banner](https://img.shields.io/badge/AI%20Powered%20Healthcare-Smart%20Hospital-blueviolet?style=for-the-badge&logo=ai)  
@@ -28,6 +31,7 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 ## 🛠️ Tech Stack  
 
 ### 🌐 Frontend  
+<<<<<<< HEAD
 ![HTML5](https://img.icons8.com/color/48/html-5.png)  
 ![CSS3](https://img.icons8.com/color/48/css3.png)  
 ![Bootstrap](https://img.icons8.com/color/48/bootstrap.png)  
@@ -42,6 +46,18 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 
 ### 🤖 Artificial Intelligence  
 ![Scikit-Learn](https://img.icons8.com/external-soft-fill-juicy-fish/48/external-machine-learning-data-science-soft-fill-soft-fill-juicy-fish.png)  
+=======
+![HTML5](https://img.icons8.com/color/48/html-5.png)  ![CSS3](https://img.icons8.com/color/48/css3.png)  ![Bootstrap](https://img.icons8.com/color/48/bootstrap.png)  ![React](https://img.icons8.com/color/48/react-native.png)  
+
+### ⚙️ Backend  
+![Python](https://img.icons8.com/color/48/python.png)  ![Django](https://img.icons8.com/color/48/django.png)  
+
+### 🗄️ Database  
+![SQLite](https://www.vectorlogo.zone/logos/sqlite/sqlite-icon.svg)  
+
+### 🤖 Artificial Intelligence  
+![Scikit-learn](https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg)  
+>>>>>>> cb845cc35c7c670575b6579e7d7152037d56101c
 
 ---
 
@@ -62,6 +78,7 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 
 ---
 
+<<<<<<< HEAD
 ## 📊 GitHub Stats & Streak  
 
 <p align="center">  
@@ -78,6 +95,8 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 
 ---
 
+=======
+>>>>>>> cb845cc35c7c670575b6579e7d7152037d56101c
 ## 🤝 Contribution  
 Want to contribute? Fork this repo, create a branch, and submit a PR 🚀  
 
