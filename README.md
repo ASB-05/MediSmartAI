@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> cb845cc35c7c670575b6579e7d7152037d56101c
 # 🏥 MediSmart AI – Smart Hospital Management with AI  
 
 ![Hospital AI Banner](https://img.shields.io/badge/AI%20Powered%20Healthcare-Smart%20Hospital-blueviolet?style=for-the-badge&logo=ai)  
@@ -78,7 +75,7 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 
 ---
 
-<<<<<<< HEAD
+
 ## 📊 GitHub Stats & Streak  
 
 <p align="center">  
@@ -95,8 +92,6 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 
 ---
 
-=======
->>>>>>> cb845cc35c7c670575b6579e7d7152037d56101c
 ## 🤝 Contribution  
 Want to contribute? Fork this repo, create a branch, and submit a PR 🚀  
 
