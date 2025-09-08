@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact - NutriCare AI</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='contact.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">NutriCare <span>AI</span></div>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('nutri_ai_page') }}">NutriCare AI</a>
+        <a href="{{ url_for('elder_ai_page') }}">ElderCare AI</a>
+        <a href="{{ url_for('contact_page') }}" class="active">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Contact Us</h1>
+    <p>We are here to help you. Reach out to us anytime and we will get back to you shortly.</p>
+</section>
+
+<section class="contact">
+    <div class="contact-container">
+        <h2>Get in Touch</h2>
+        <p>Fill out the form below to send us a message.</p>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name">
+            <input type="email" id="email" placeholder="Your Email">
+            <input type="text" id="subject" placeholder="Subject">
+            <textarea id="message" placeholder="Your Message"></textarea>
+            <button type="button" id="submitBtn">Submit</button>
+            <p class="confirmation" id="confirmationMessage"></p>
+        </form>
+    </div>
+</section>
+
+<section class="info">
+    <h2>Contact Information</h2>
+    <div class="info-cards">
+        <div class="info-card">
+            <h3>Address</h3>
+            <p>123 Health Street, Mangalore, India</p>
+        </div>
+        <div class="info-card">
+            <h3>Phone</h3>
+            <p>+91 98765 43210</p>
+        </div>
+        <div class="info-card">
+            <h3>Email</h3>
+            <p>support@nutricare.ai</p>
+        </div>
+        <div class="info-card">
+            <h3>Working Hours</h3>
+            <p>Mon - Sat: 9:00 AM - 6:00 PM</p>
+        </div>
+    </div>
+</section>
+
+<section class="map">
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.774438514819!2d74.839842815217!3d12.922112990888636!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba35a4c372b2f5b%3A0x7243c335fa5201b!2sMangalore%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1678886055555!5m2!1sen!2sin" 
+        width="100%" height="350" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+</section>
+
+<section class="social">
+    <h2>Follow Us</h2>
+    <div class="social-icons">
+        <a href="#" target="_blank">Facebook</a>
+        <a href="#" target="_blank">Instagram</a>
+        <a href="#" target="_blank">LinkedIn</a>
+        <a href="#" target="_blank">YouTube</a>
+    </div>
+</section>
+
+<footer>
+    <p>© 2025 NutriCare AI. All rights reserved.</p>
+</footer>
+
+<script src="{{ url_for('static', filename='contact.js') }}"></script>
+</body>
+</html>

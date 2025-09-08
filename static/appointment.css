@@ -1,0 +1,196 @@
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f9fbfc; /* same as doctor page */
+    color: #222;
+    line-height: 1.6;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 10%;
+    background: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0077b6;
+}
+
+.logo span {
+    color: #009688;
+}
+
+.navbar a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: #0077b6;
+}
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 60px 10%;
+    background: linear-gradient(135deg, #e6f7ff, #f9ffff);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    color: #003366;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Appointment Form Section */
+.appointment-form-section {
+    display: flex;
+    justify-content: center;
+    padding: 50px 10%;
+}
+
+.form-container {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 500px;
+}
+
+.form-container h2 {
+    color: #0077b6;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-container form input,
+.form-container form select,
+.form-container form textarea,
+.form-container form button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 12px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-container form input:focus,
+.form-container form select:focus,
+.form-container form textarea:focus {
+    outline: none;
+    border-color: #0077b6;
+    box-shadow: 0 0 5px rgba(0,119,182,0.3);
+}
+
+.form-container form textarea {
+    resize: none;
+    min-height: 80px;
+}
+
+.form-container form button {
+    background: linear-gradient(135deg, #0077b6, #009688);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.form-container form button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 119, 182, 0.3);
+}
+
+/* Confirmation message */
+#confirmation {
+    text-align: center;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+/* NEW: AI Suggestions Styles */
+#ai-suggestions-box {
+    background-color: #f0f8ff;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 15px 0;
+    border: 1px solid #d4eaf7;
+}
+
+#ai-suggestions-box h4 {
+    margin: 0 0 10px 0;
+    color: #00568c;
+    text-align: left;
+    font-size: 1rem;
+}
+
+.suggestions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.suggestion-btn {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: #fff;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.suggestion-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+.suggestion-btn.optimal {
+    background-color: #28a745; /* Green */
+}
+
+.suggestion-btn.busy {
+    background-color: #ffc107; /* Orange */
+    color: #212529;
+}
+
+.hidden {
+    display: none;
+}
+
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #003366;
+    color: #fff;
+}

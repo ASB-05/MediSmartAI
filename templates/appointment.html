@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appointments - MediSmart AI</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='appointment.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">MediSmart <span>AI</span></div>
+    <nav>
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('doctors_page') }}">Doctors</a>
+      <a href="{{ url_for('appointments_page') }}" class="active">Appointments</a>
+      <a href="{{ url_for('consult_online_page') }}">Consult Online</a>
+      <a href="{{ url_for('contact_page') }}">Contact</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Book Your Appointment</h1>
+    <p>Select a doctor, choose online/offline, and book a suitable time.</p>
+</section>
+
+<section class="appointment-form-section">
+    <div class="form-container">
+        <h2>Appointment Form</h2>
+        <form id="appointmentForm">
+            <input type="text" id="patientName" placeholder="Your Name" required>
+            <input type="email" id="patientEmail" placeholder="Email Address" required>
+            <input type="tel" id="patientContact" placeholder="Contact Number" required>
+
+            <label for="domainSelect">Select Domain:</label>
+            <select id="domainSelect" required>
+                <option value="">--Select Domain--</option>
+            </select>
+
+            <label for="doctorSelect">Select Doctor:</label>
+            <select id="doctorSelect" required>
+                <option value="">--Select Doctor--</option>
+            </select>
+
+            <label for="appointmentType">Appointment Type:</label>
+            <select id="appointmentType" required>
+                <option value="Offline">Offline</option>
+                <option value="Online">Online</option>
+            </select>
+
+            <label for="appointmentDate">Select Date:</label>
+            <input type="date" id="appointmentDate" required>
+
+            <label for="appointmentTime">Select Time:</label>
+            <input type="time" id="appointmentTime" required>
+
+            <textarea id="additionalNotes" placeholder="Additional Notes (optional)"></textarea>
+
+            <button type="submit">Book Appointment</button>
+        </form>
+        <p id="confirmation" style="color:green; font-weight:bold;"></p>
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='appointment.js') }}"></script>
+</body>
+</html>
