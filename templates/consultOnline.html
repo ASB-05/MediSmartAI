@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consult Online - NutriCare AI</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='consultOnline.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">NutriCare <span>AI</span></div>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('consult_online_page') }}" class="active">Consult Online</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Consult Online</h1>
+    <p>Book an appointment with available doctors at a convenient time.</p>
+</section>
+
+<div class="form-container">
+    <h2>Book Your Consultation</h2>
+    <input type="text" id="name" placeholder="Enter Your Name">
+    <input type="text" id="disease" placeholder="Enter Your Disease">
+
+    <label>Select Doctor:
+      <select id="doctor">
+        <option value="">Select Doctor</option>
+      </select>
+    </label>
+
+    <label>Choose Date:
+      <input type="date" id="date">
+    </label>
+
+    <label>Choose Time:
+      <input type="time" id="time">
+    </label>
+
+    <button id="bookBtn">Book Consultation</button>
+
+    <div class="confirmation-box" id="confirmationBox"></div>
+</div>
+
+<footer>
+    <p>&copy; 2025 NutriCare AI. All rights reserved.</p>
+</footer>
+
+<script src="{{ url_for('static', filename='consultOnline.js') }}"></script>
+</body>
+</html>
