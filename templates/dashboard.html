@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MediSmart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">MediSmart <span>AI</span></div>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('appointments_page') }}">Book Appointment</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+
+    <main class="dashboard-container" data-user-role="{{ current_user.role }}">
+        <h1>Welcome, {{ current_user.name }}!</h1>
+        <p>This is your {{ current_user.role }} Dashboard.</p>
+
+        <section class="appointments-section">
+            <h2>My Upcoming Appointments</h2>
+            <div id="appointments-list">
+                <p>Loading your appointments...</p>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+</body>
+</html>
