@@ -28,7 +28,7 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 ## 🛠️ Tech Stack  
 
 ### 🌐 Frontend  
-<<<<<<< HEAD
+
 ![HTML5](https://img.icons8.com/color/48/html-5.png)  
 ![CSS3](https://img.icons8.com/color/48/css3.png)  
 ![Bootstrap](https://img.icons8.com/color/48/bootstrap.png)  
@@ -54,7 +54,7 @@ Patients face **long waiting times** and **difficulty booking appointments** due
 
 ### 🤖 Artificial Intelligence  
 ![Scikit-learn](https://upload.wikimedia.org/wikipedia/commons/0/05/Scikit_learn_logo_small.svg)  
->>>>>>> cb845cc35c7c670575b6579e7d7152037d56101c
+
 
 ---
 
