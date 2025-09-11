@@ -14,33 +14,27 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
 from dotenv import load_dotenv 
+import openai # <-- NEW: Import the OpenAI library
 
+# --- LOAD ENVIRONMENT VARIABLES FIRST ---
+# This must be the first thing you do to ensure variables are loaded
 load_dotenv() 
-# --- Initialization ---
 
-# Define the base directory of the current script.
-# This makes path resolution robust, regardless of the current working directory.
+# --- PATH & INITIALIZATION ---
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-# Initialize Flask app, explicitly telling it where to find templates and static files
-# relative to the BASE_DIR.
 app = Flask(__name__,
             template_folder=os.path.join(BASE_DIR, 'templates'),
             static_folder=os.path.join(BASE_DIR, 'static'))
 
-# ---vvv--- ENHANCED DEBUGGING CODE ---vvv---
-# This section helps verify that Flask is looking for files in the correct place.
-# It's good practice to keep this during development.
-current_working_directory = BASE_DIR # Use BASE_DIR for reliable path reporting
-template_folder_path = os.path.join(current_working_directory, 'templates') # Use 'templates' relative to BASE_DIR
+# --- DEBUGGING INFO ---
+current_working_directory = BASE_DIR
+template_folder_path = os.path.join(current_working_directory, 'templates')
 print(f"\n--- DEBUG INFO ---")
 print(f"-> Your script is running from this base directory:")
 print(f"   '{current_working_directory}'")
 print(f"-> Flask is configured to look for the 'templates' folder at this absolute path:")
 print(f"   '{os.path.abspath(template_folder_path)}'")
 print(f"-> Does this 'templates' folder actually exist? -> {'YES' if os.path.isdir(template_folder_path) else '!!! NO !!!'}")
-
-# This part lists the files inside the 'templates' folder to confirm their presence
 if os.path.isdir(template_folder_path):
     print(f"-> Here are the files found inside your 'templates' folder:")
     files_in_templates = os.listdir(template_folder_path)
@@ -51,51 +45,33 @@ if os.path.isdir(template_folder_path):
             print(f"   - {filename}")
 else:
     print(f"!!! WARNING: The 'templates' folder was not found at '{os.path.abspath(template_folder_path)}' !!!")
-
 print(f"--- END DEBUG INFO ---\n")
-# ---^^^--- END OF OF DEBUGGING CODE ---^^^---
 
 app.config['SECRET_KEY'] = os.urandom(24)
 CORS(app)
 
 # --- Flask-Mail Configuration ---
-# Ensure these environment variables are set in your system or .env file
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
+mail = Mail(app)
 
-# ---vvv--- ADD THIS DEBUGGING CODE ---vvv---
-print("--- MAIL DEBUG INFO ---")
-print(f"MAIL_USERNAME is: {app.config.get('MAIL_USERNAME')}")
-# This next line is just to check IF the password was found, not to show it.
-# If it shows 'None', the variable was not found.
-if app.config.get('MAIL_PASSWORD'):
-    print("MAIL_PASSWORD is: SET")
+# --- OpenAI API Configuration ---
+# Set the API key from the environment variable
+openai.api_key = os.environ.get('OPENAI_API_KEY')
+
+# Debugging check for the API key
+print("--- OPENAI DEBUG INFO ---")
+if openai.api_key:
+    print("OPENAI_API_KEY is: SET")
 else:
-    print("MAIL_PASSWORD is: !!! NOT SET / NOT FOUND !!!")
+    print("OPENAI_API_KEY is: !!! NOT SET / NOT FOUND !!!")
 print("------------------------")
-# ---^^^--- END OF DEBUGGING CODE ---^^^---
-
-mail = Mail(app)
-
-app.config['SECRET_KEY'] = os.urandom(24)
-CORS(app)
-
-# --- Flask-Mail Configuration ---
-# Ensure these environment variables are set in your system or .env file
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')
-mail = Mail(app)
 
 # --- MongoDB Configuration ---
-# Ensure MongoDB is running and accessible at this address
 client = MongoClient('mongodb://localhost:27017/')
 db = client['medismart_db']
 users_collection = db['users']
@@ -104,11 +80,10 @@ appointments_collection = db['appointments']
 contacts_collection = db['contacts']
 consultations_collection = db['consultations']
 
-
 # --- Flask-Login Configuration ---
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login' # Redirects unauthenticated users to the login page
+login_manager.login_view = 'login'
 
 class User(UserMixin):
     def __init__(self, user_data):
@@ -119,15 +94,10 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    """Loads a user from the database given their ID."""
     user_data = users_collection.find_one({'_id': ObjectId(user_id)})
     return User(user_data) if user_data else None
 
 # --- AI Models ---
-# These models are simple examples. In a real application, they would be
-# trained on much larger datasets and potentially loaded from saved files.
-
-# Scheduler Model (Logistic Regression for optimal slot prediction)
 scheduler_data = {
     'hour': [9, 10, 11, 12, 13, 14, 15, 16, 9, 10, 11, 12, 13, 14, 15, 16],
     'is_booked': [1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0],
@@ -139,13 +109,12 @@ y_scheduler = scheduler_df['is_optimal']
 scheduler_model = LogisticRegression()
 scheduler_model.fit(X_scheduler, y_scheduler)
 
-# Diet Recommendation Model (Decision Tree Classifier)
 diet_data = {
     'disease': ['Diabetes', 'Hypertension', 'Obesity', 'Fever', 'Cold'],
     'diet': ['Low Carb Diet', 'Low Sodium Diet', 'Low Calorie Diet', 'Fluid-Rich Diet', 'Vitamin C Rich Diet']
 }
 diet_df = pd.DataFrame(diet_data)
-le = LabelEncoder() # Used to encode categorical 'disease' into numerical format
+le = LabelEncoder()
 diet_df['disease_encoded'] = le.fit_transform(diet_df['disease'])
 X_diet = diet_df[['disease_encoded']]
 y_diet = diet_df['diet']
@@ -154,7 +123,6 @@ diet_model.fit(X_diet, y_diet)
 
 # --- PDF & Email Helper Functions ---
 def create_appointment_pdf(appointment_data):
-    """Generates a PDF confirmation for an appointment."""
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", 'B', 16)
@@ -168,14 +136,11 @@ def create_appointment_pdf(appointment_data):
     pdf.cell(0, 8, f"Type: {appointment_data['appointmentType']}", 0, 1)
     pdf.ln(5)
     pdf.multi_cell(0, 8, f"Notes: {appointment_data.get('additionalNotes', 'N/A')}")
-    
-    # Create a unique filename for the PDF
     pdf_file_path = os.path.join(BASE_DIR, f"appointment_{appointment_data['_id']}.pdf")
     pdf.output(pdf_file_path)
     return pdf_file_path
 
 def send_appointment_email(recipient_email, attachment_path):
-    """Sends an email with the appointment PDF attached."""
     try:
         msg = Message("Your MediSmart AI Appointment Confirmation", recipients=[recipient_email])
         msg.body = "Dear Patient,\n\nPlease find your appointment details attached.\n\nThank you for choosing MediSmart AI."
@@ -188,7 +153,6 @@ def send_appointment_email(recipient_email, attachment_path):
         return False
 
 # --- Main Page Routes ---
-# These routes render the main HTML pages of the application.
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -198,7 +162,7 @@ def doctors_page():
     return render_template('doctor.html')
 
 @app.route('/appointments')
-@login_required # Requires user to be logged in
+@login_required
 def appointments_page():
     return render_template('appointment.html')
 
@@ -218,8 +182,6 @@ def elder_ai_page():
 @app.route('/nutri-ai')
 @login_required
 def nutri_ai_page():
-    # This is the route that was causing the error.
-    # With the BASE_DIR fix, it should now correctly find 'nutriAI.html'.
     return render_template('nutriAI.html')
     
 # --- User Authentication Routes ---
@@ -230,14 +192,9 @@ def signup():
         email = request.form.get('email')
         password = request.form.get('password')
         role = request.form.get('role')
-        
-        # Check if user already exists
         user_exists = users_collection.find_one({'email': email})
         if user_exists:
-            # Optionally, add a flash message here to inform the user
             return redirect(url_for('signup')) 
-        
-        # Hash password for security
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         users_collection.insert_one({'name': name, 'email': email, 'password': hashed_password, 'role': role})
         return redirect(url_for('login'))
@@ -248,29 +205,23 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        
         user_data = users_collection.find_one({'email': email})
-        
-        # Verify password
         if user_data and check_password_hash(user_data['password'], password):
             user = User(user_data)
-            login_user(user) # Log the user in
-            return redirect(url_for('dashboard')) # Redirect to dashboard on successful login
-        
-        # Optionally, add a flash message for invalid credentials
-        return redirect(url_for('login')) # Redirect back to login on failure
+            login_user(user)
+            return redirect(url_for('dashboard'))
+        return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route('/logout')
-@login_required # Only logged-in users can log out
+@login_required
 def logout():
-    logout_user() # Log the user out
-    return redirect(url_for('index')) # Redirect to home page
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    # The dashboard will display content based on the logged-in user's role
     return render_template('dashboard.html')
 
 @app.route('/symptom-checker')
@@ -278,66 +229,49 @@ def symptom_checker():
     return render_template('symptom_checker.html')
 
 # --- API Routes ---
-# These routes handle data requests from the frontend via JavaScript.
-
 @app.route('/api/appointments', methods=['POST'])
 @login_required
 def book_appointment():
-    """Handles booking a new appointment."""
     try:
         data = request.get_json()
-        # Add current user's details to the appointment data
         data['patientName'] = current_user.name
         data['patientEmail'] = current_user.email
         data['patientId'] = current_user.id
-        
         result = appointments_collection.insert_one(data)
         appointment_id = result.inserted_id
-        data['_id'] = appointment_id # Add the generated ID back to data for PDF creation
-        
+        data['_id'] = appointment_id
         pdf_path = create_appointment_pdf(data)
         email_sent = send_appointment_email(data['patientEmail'], pdf_path)
-        
-        # Clean up the generated PDF file after sending the email
         if os.path.exists(pdf_path):
             os.remove(pdf_path)
-            
         if email_sent:
             return jsonify({'message': 'Appointment booked! A confirmation has been sent to your email.'}), 201
         else:
-            return jsonify({'message': 'Appointment booked, but the confirmation email could not be sent.'}), 207 # Partial success
+            return jsonify({'message': 'Appointment booked, but the confirmation email could not be sent.'}), 207
     except Exception as e:
-        print(f"Error booking appointment: {e}") # Log the error for debugging
+        print(f"Error booking appointment: {e}")
         return jsonify({'error': str(e)}), 400
 
 @app.route('/api/my-appointments')
 @login_required
 def my_appointments():
-    """Fetches appointments for the logged-in user (patient or doctor)."""
-    # Query based on user role
     if current_user.role == 'Patient':
         query = {'patientId': current_user.id}
     elif current_user.role == 'Doctor':
-        query = {'doctorName': current_user.name} # Assuming doctor's name is unique or sufficient
+        query = {'doctorName': current_user.name}
     else:
         return jsonify({'error': 'Invalid user role'}), 403
-
-    # Convert ObjectId to string for JSON serialization
     appointments = [{**app_data, '_id': str(app_data['_id'])} for app_data in appointments_collection.find(query)]
     return jsonify(appointments)
 
 @app.route('/api/appointments/<appointment_id>/cancel', methods=['POST'])
 @login_required
 def cancel_appointment(appointment_id):
-    """Allows a user to cancel their appointment."""
     try:
         appointment = appointments_collection.find_one({'_id': ObjectId(appointment_id)})
-        
-        # Ensure the user is authorized to cancel this appointment
         if appointment and (appointment.get('patientId') == current_user.id or appointment.get('doctorName') == current_user.name):
             appointments_collection.delete_one({'_id': ObjectId(appointment_id)})
             return jsonify({'message': 'Appointment cancelled successfully'}), 200
-        
         return jsonify({'error': 'Unauthorized or Appointment not found'}), 403
     except Exception as e:
         print(f"Error cancelling appointment: {e}")
@@ -346,99 +280,76 @@ def cancel_appointment(appointment_id):
 @app.route('/api/schedule-suggestions', methods=['POST'])
 @login_required
 def schedule_suggestions():
-    """Provides AI-driven time slot suggestions for doctors."""
     data = request.get_json()
     doctor_name = data.get('doctorName')
     selected_date = data.get('date')
-
     if not doctor_name or not selected_date:
         return jsonify({'error': 'Doctor name and date are required'}), 400
-
-    # Generate potential time slots (e.g., every 30 minutes from 9 AM to 4 PM)
     time_slots = [f"{h:02d}:{m:02d}" for h in range(9, 17) for m in (0, 30)]
-    
-    # Get already booked slots for the selected doctor and date
     booked_slots = {app['time'] for app in appointments_collection.find({'doctorName': doctor_name, 'date': selected_date})}
-    
     suggestions = []
     for slot in time_slots:
         if slot in booked_slots:
-            continue # Skip already booked slots
-        
+            continue
         hour = int(slot.split(':')[0])
-        
-        # Use the trained scheduler model to predict optimality
-        # The model expects 'hour' and 'is_booked' (0 for available, 1 for booked)
         prediction_data = pd.DataFrame({'hour': [hour], 'is_booked': [0]}) 
         prediction = scheduler_model.predict(prediction_data)[0]
-        
-        status = 'optimal' if prediction == 1 else 'busy' # 'optimal' means recommended, 'busy' means less ideal
+        status = 'optimal' if prediction == 1 else 'busy'
         suggestions.append({'time': slot, 'status': status})
-        
     return jsonify(suggestions)
 
 @app.route('/api/diet-recommendation', methods=['POST'])
 @login_required
 def diet_recommendation():
-    """Provides AI-driven diet recommendations based on disease."""
     data = request.get_json()
     disease = data.get('disease')
-    
     if not disease:
         return jsonify({'error': 'Disease not provided'}), 400
-    
     try:
-        # Encode the input disease using the same LabelEncoder used during training
-        # np.array([disease]) is used because transform expects a 1D array-like input
         disease_encoded = le.transform(np.array([disease])) 
-        
-        # Create a DataFrame for prediction, matching the training data's feature names
         prediction_data = pd.DataFrame({'disease_encoded': disease_encoded})
-        
-        # Get the diet recommendation from the trained model
         diet = diet_model.predict(prediction_data)[0]
-        
         return jsonify({'diet': diet})
     except Exception as e:
         print(f"Error getting diet recommendation: {e}")
-        # Fallback recommendation if the disease is not recognized by the model
         return jsonify({'diet': 'A general balanced diet. Please consult a specialist for your condition.'})
 
 @app.route('/api/symptom-check', methods=['POST'])
 def symptom_check_api():
-    """Provides a specialist recommendation based on user-entered symptoms."""
-    symptoms = request.get_json().get('symptoms', '').lower() # Get symptoms and convert to lowercase
-    
-    # Define keywords for different medical domains
-    domain_keywords = {
-        'Dermatologist': ['rash', 'skin', 'itch', 'acne', 'mole'],
-        'Cardiologist': ['chest pain', 'heart', 'pressure', 'palpitations', 'dizzy'],
-        'Neurologist': ['headache', 'migraine', 'seizure', 'numbness', 'memory loss'],
-        'Orthopedic': ['joint pain', 'bone', 'fracture', 'sprain', 'knee', 'back pain'],
-        'General Physician': ['fever', 'cough', 'cold', 'sore throat', 'fatigue']
-    }
-    
-    recommendation = "General Physician" # Default recommendation
-    max_matches = 0
-    
-    # Iterate through domains and count keyword matches
-    for domain, keywords in domain_keywords.items():
-        matches = sum([1 for keyword in keywords if keyword in symptoms])
-        if matches > max_matches:
-            max_matches = matches
-            recommendation = domain
-            
-    # Format the recommendation message
-    if max_matches > 0:
-        recommendation_message = f"a {recommendation}"
-    else:
-        recommendation_message = "a General Physician for a consultation"
+    """Provides a specialist recommendation based on user-entered symptoms using OpenAI API."""
+    try:
+        data = request.get_json()
+        symptoms = data.get('symptoms')
         
-    return jsonify({'recommendation': recommendation_message})
+        if not symptoms:
+            return jsonify({'error': 'Symptoms not provided'}), 400
+
+        prompt = f"Given the following symptoms: '{symptoms}', what type of medical specialist should a person consult? Provide a concise answer, for example: 'a General Physician' or 'a Dermatologist'. If the symptoms are serious, you can also suggest 'an Emergency Room'."
+
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful medical assistant. Your task is to recommend a type of medical specialist based on a list of symptoms."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        
+        recommendation = response.choices[0].message['content'].strip()
+        
+        if not recommendation.lower().startswith(('a ', 'an ')):
+            recommendation = "a " + recommendation
+        
+        return jsonify({'recommendation': recommendation})
+
+    except openai.error.AuthenticationError:
+        print("OpenAI API key is invalid. Please check your .env file.")
+        return jsonify({'error': 'Authentication failed. Please contact support.'}), 500
+    except Exception as e:
+        print(f"Error calling OpenAI API: {e}")
+        return jsonify({'error': 'An error occurred while processing your request.'}), 500
 
 @app.route('/api/doctors', methods=['GET', 'POST'])
 def handle_doctors():
-    """Handles adding new doctors (POST) and fetching all doctors (GET)."""
     if request.method == 'POST':
         if not current_user.is_authenticated or current_user.role != 'Doctor':
              return jsonify({'error': 'Unauthorized action. Only doctors can add profiles.'}), 403
@@ -448,14 +359,11 @@ def handle_doctors():
         except Exception as e:
             print(f"Error adding doctor: {e}")
             return jsonify({'error': str(e)}), 400
-    
-    
     doctors = list(doctors_collection.find({}, {'_id': 0})) 
     return jsonify(doctors)
 
 @app.route('/api/contact', methods=['POST'])
 def handle_contact():
-    """Handles submissions from the contact form."""
     try:
         data = request.get_json()
         contacts_collection.insert_one(data)
@@ -467,10 +375,9 @@ def handle_contact():
 @app.route('/api/consultations', methods=['POST'])
 @login_required
 def handle_consultations():
-    """Handles booking online consultations."""
     try:
         data = request.get_json()
-        data['patientId'] = current_user.id # Link consultation to the patient
+        data['patientId'] = current_user.id
         consultations_collection.insert_one(data)
         return jsonify({'message': 'Consultation booked successfully!'}), 201
     except Exception as e:
@@ -478,5 +385,4 @@ def handle_consultations():
         return jsonify({'error': str(e)}), 400
 
 if __name__ == '__main__':
-
     app.run(debug=True, port=5000)

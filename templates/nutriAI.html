@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriCare AI - Diet Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='nutriAI.css') }}">
+</head>
+<body>
+
+<header class="navbar">
+    <div class="logo">NutriCare <span>AI</span></div>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('elder_ai_page') }}">ElderCare AI</a>
+        <a href="{{ url_for('nutri_ai_page') }}" class="active">NutriCare AI</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>AI Diet Planner</h1>
+    <p>Enter your health details to get a diet recommendation from our AI.</p>
+</section>
+
+<div class="form-container">
+    <h2>Your Details</h2>
+    <input type="text" id="name" placeholder="Enter Your Name" required>
+    <input type="text" id="disease" placeholder="Primary Condition (e.g., Diabetes, Fever)" required>
+    <textarea id="healthRecords" placeholder="Briefly describe your health records" required></textarea>
+    
+    <button id="getDietBtn">Get AI Diet Recommendation</button>
+
+    <div class="routine-box" id="routineBox"></div>
+</div>
+
+<footer>
+    <p>&copy; 2025 NutriCare AI. All rights reserved.</p>
+</footer>
+
+<script src="{{ url_for('static', filename='nutriAI.js') }}"></script>
+
+</body>
+</html>
