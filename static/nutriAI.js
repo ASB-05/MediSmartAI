@@ -8,17 +8,17 @@ document.addEventListener("DOMContentLoaded", () => {
             const disease = document.getElementById('disease').value.trim();
             const healthRecords = document.getElementById('healthRecords').value.trim();
 
-            if (name === "" || disease === "" || healthRecords === "") {
-                alert("Please fill in all details to get a recommendation.");
+            if (name === "" || disease === "") {
+                alert("Please fill in your name and primary condition.");
                 return;
             }
 
-            // Show a loading message
             routineBox.style.display = "block";
-            routineBox.innerHTML = `<p>Analyzing your details and generating a diet plan...</p>`;
+            routineBox.innerHTML = `<p><strong>Analyzing your details and contacting AI Nutritionist...</strong></p>`;
 
             const dietRequestData = {
-                disease: disease
+                disease: disease,
+                healthRecords: healthRecords // Send the additional details
             };
 
             fetch('/api/diet-recommendation', {
@@ -28,21 +28,18 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .then(response => response.json())
             .then(data => {
-                if (data.error) {
-                    throw new Error(data.error);
-                }
+                if (data.error) throw new Error(data.error);
                 
                 routineBox.innerHTML = `
                     <h3>AI Diet Recommendation for ${name}</h3>
-                    <p><strong>Condition:</strong> ${disease}</p>
-                    <p><strong>Recommended Diet:</strong> ${data.diet}</p>
+                    <p><strong>Primary Condition:</strong> ${disease}</p>
                     <hr>
-                    <p><em>This is an AI-generated suggestion. Always consult with a certified doctor or nutritionist for a personalized diet plan.</em></p>
+                    <p>${data.diet.replace(/\n/g, '<br>')}</p> <hr>
+                    <p><em>This is an AI-generated suggestion. Always consult with a certified doctor or nutritionist.</em></p>
                 `;
             })
             .catch(error => {
-                routineBox.innerHTML = `<p style="color: red;">Error: Could not retrieve a recommendation. ${error.message}</p>`;
-                console.error('Error:', error);
+                routineBox.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
             });
         });
     }

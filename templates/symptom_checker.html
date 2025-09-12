@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symptom Checker - MediSmart AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='symptom_checker.css') }}">
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">MediSmart <span>AI</span></div>
+        <nav>
+             {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signup') }}">Sign Up</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="checker-container">
+        <div class="checker-box">
+            <h1>AI Symptom Checker</h1>
+            <p>Describe your symptoms below, and our AI will suggest a specialist.</p>
+            <textarea id="symptoms-input" placeholder="e.g., I have a bad headache and feel dizzy..."></textarea>
+            <button id="check-symptoms-btn" class="btn">Analyze Symptoms</button>
+            <div id="result-box" class="hidden">
+                <h2>Recommendation:</h2>
+                <p id="recommendation-text"></p>
+                <a href="{{ url_for('appointments_page') }}" class="btn">Book Now</a>
+            </div>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='symptom_checker.js') }}"></script>
+</body>
+</html>

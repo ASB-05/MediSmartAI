@@ -1,0 +1,63 @@
+.checker-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #e6f7ff, #f9ffff);
+    min-height: calc(100vh - 80px);
+}
+
+.checker-box {
+    background: #fff;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+.checker-box h1 {
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.checker-box p {
+    color: #555;
+    margin-bottom: 25px;
+}
+
+#symptoms-input {
+    width: 100%;
+    min-height: 120px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+    resize: vertical;
+    margin-bottom: 20px;
+}
+
+#result-box {
+    margin-top: 30px;
+    background-color: #eaf8ff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #cceeff;
+}
+
+#result-box h2 {
+    color: #0077b6;
+    margin-bottom: 10px;
+}
+
+#recommendation-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.hidden {
+    display: none;
+}
