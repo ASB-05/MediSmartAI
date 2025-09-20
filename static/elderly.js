@@ -23,10 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
             event.stopPropagation();
             if (button.textContent.includes("Ambulance")) {
                 alert("Calling Ambulance (108)...");
+                // This will attempt to open the phone dialer on a mobile device
                 window.location.href = 'tel:108';
             } else {
                 alert("Calling Family Contact...");
-                window.location.href = 'tel:+911234567890'; // Replace with a real number
+                // Replace with a real emergency contact number
+                window.location.href = 'tel:+911234567890'; 
             }
         });
     });
@@ -36,9 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const healthRecordsList = document.getElementById('healthRecordsList');
 
     async function loadHealthRecords() {
+        healthRecordsList.innerHTML = '<p>Loading records...</p>';
         try {
             const response = await fetch('/api/elder/health-records');
-            if (!response.ok) throw new Error('Could not fetch health records.');
+            if (!response.ok) throw new Error('Could not fetch health records. Please log in.');
             const records = await response.json();
             healthRecordsList.innerHTML = '<h3>Saved Records</h3>';
             if (records.length === 0) {
@@ -61,13 +64,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const metric = document.getElementById('recordMetric').value;
         const value = document.getElementById('recordValue').value;
         try {
-            await fetch('/api/elder/health-records', {
+            const response = await fetch('/api/elder/health-records', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ metric, value })
             });
+             if (!response.ok) throw new Error('Failed to save record.');
             healthRecordForm.reset();
-            loadHealthRecords();
+            loadHealthRecords(); // Refresh the list
         } catch (error) {
             alert(`Error saving record: ${error.message}`);
         }
@@ -76,9 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- APPOINTMENTS ---
     const elderAppointmentsList = document.getElementById('elderAppointmentsList');
     async function loadAppointments() {
+        elderAppointmentsList.innerHTML = '<p>Loading appointments...</p>';
         try {
             const response = await fetch('/api/my-appointments');
-            if (!response.ok) throw new Error('Please log in to see appointments.');
+            if (!response.ok) throw new Error('Could not fetch appointments. Please log in.');
             const appointments = await response.json();
             elderAppointmentsList.innerHTML = '<h3>Upcoming Appointments</h3>';
             if (appointments.length === 0) {
@@ -88,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             appointments.forEach(app => {
                 const appEl = document.createElement('div');
                 appEl.className = 'item-card';
-                appEl.innerHTML = `<strong>With ${app.doctorName}</strong> on ${app.date} at ${app.time}`;
+                appEl.innerHTML = `<strong>With Dr. ${app.doctorName}</strong> on ${app.date} at ${app.time}`;
                 elderAppointmentsList.appendChild(appEl);
             });
         } catch (error) {
@@ -101,9 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const medicationsList = document.getElementById('medicationsList');
 
     async function loadMedications() {
+        medicationsList.innerHTML = '<p>Loading medication schedule...</p>';
         try {
             const response = await fetch('/api/elder/medications');
-            if (!response.ok) throw new Error('Could not fetch medication schedule.');
+            if (!response.ok) throw new Error('Could not fetch medication schedule. Please log in.');
             const meds = await response.json();
             userMedications = meds; // Store for the reminder checker
             medicationsList.innerHTML = '<h3>My Medication Schedule</h3>';
@@ -130,13 +136,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const dosage = document.getElementById('medDosage').value;
         const time = document.getElementById('medTime').value;
         try {
-            await fetch('/api/elder/medications', {
+            const response = await fetch('/api/elder/medications', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, dosage, time })
             });
+            if (!response.ok) throw new Error('Failed to add medication.');
             medicationForm.reset();
-            loadMedications();
+            loadMedications(); // Refresh the list
         } catch (error) {
             alert(`Error saving medication: ${error.message}`);
         }
@@ -148,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (confirm('Are you sure you want to delete this medication?')) {
                 try {
                     await fetch(`/api/elder/medications/${medId}`, { method: 'DELETE' });
-                    loadMedications();
+                    loadMedications(); // Refresh the list
                 } catch (error) {
                     alert(`Error deleting medication: ${error.message}`);
                 }
@@ -156,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // --- IMPROVED MEDICATION REMINDER ---
+    // --- MEDICATION REMINDER BANNER ---
     const reminderBanner = document.getElementById('reminder-banner');
     function checkMedicationReminders() {
         const now = new Date();
@@ -164,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         userMedications.forEach(med => {
             if (med.time === currentTime && !med.reminded) {
-                med.reminded = true; // Mark as reminded for today
+                med.reminded = true; // Mark as reminded for this session
                 reminderBanner.innerHTML = `
                     <div class="reminder-content">
                         <h2>Time for your medication!</h2>
@@ -175,10 +182,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-    // Reset reminders daily
+    
+    // Reset reminders daily to allow for new reminders the next day
     function resetReminders() {
-        userMedications.forEach(med => med.reminded = false);
+        const now = new Date();
+        if (now.getHours() === 0 && now.getMinutes() === 0) { // Midnight
+            userMedications.forEach(med => med.reminded = false);
+        }
     }
 
     reminderBanner.addEventListener('click', (e) => {
@@ -187,7 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    loadMedications(); // Initial load
+    loadMedications(); // Initial load to check for reminders
     setInterval(checkMedicationReminders, 15000); // Check every 15 seconds
-    setInterval(resetReminders, 1000 * 60 * 60 * 24); // Reset daily
+    setInterval(resetReminders, 60000); // Check every minute for midnight reset
 });

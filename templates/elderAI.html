@@ -37,7 +37,7 @@
     <button class="dash-btn emergency" onclick="showSection('emergency')">Emergency Call</button>
 </section>
 
-<section id="health-records" class="section">
+<section id="health-records" class="section" style="display:none;">
     <h2>My Health Records</h2>
     <p>Track your blood pressure, sugar levels, heart rate, etc.</p>
     <div class="form-and-data">
@@ -50,21 +50,21 @@
             </form>
         </div>
         <div class="data-container-elder" id="healthRecordsList">
-            <p>Loading records...</p>
+            <p>Click "Health Records" to load your data.</p>
         </div>
     </div>
 </section>
 
-<section id="appointments" class="section">
+<section id="appointments" class="section" style="display:none;">
     <h2>My Appointments</h2>
     <p>Schedule your doctor visits easily and view your upcoming appointments.</p>
     <a href="{{ url_for('appointments_page') }}" class="action-btn">Book New Appointment</a>
     <div class="data-container-elder" id="elderAppointmentsList" style="margin-top: 20px;">
-        <p>Loading appointments...</p>
+        <p>Click "Appointments" to load your data.</p>
     </div>
 </section>
 
-<section id="medications" class="section">
+<section id="medications" class="section" style="display:none;">
     <h2>My Medication Reminders</h2>
     <p>Never miss your medicines. Get reminders at the right time.</p>
      <div class="form-and-data">
@@ -73,18 +73,18 @@
             <form id="medicationForm">
                 <input type="text" id="medName" placeholder="Medication Name" required>
                 <input type="text" id="medDosage" placeholder="Dosage (e.g., 1 tablet)" required>
-                <label>Time to take:</label>
+                <label for="medTime">Time to take:</label>
                 <input type="time" id="medTime" required>
                 <button type="submit" class="action-btn">Add Medication</button>
             </form>
         </div>
         <div class="data-container-elder" id="medicationsList">
-            <p>Loading medication schedule...</p>
+            <p>Click "Medication Reminders" to load your schedule.</p>
         </div>
     </div>
 </section>
 
-<section id="emergency" class="section">
+<section id="emergency" class="section" style="display:none;">
     <h2>Emergency</h2>
     <p>Call your children or an ambulance instantly.</p>
     <button class="action-btn emergency-call">Call Family</button>

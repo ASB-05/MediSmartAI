@@ -30,7 +30,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/dermatology.png') }}" alt="Dermatologist"></div>
         <h3>Dermatologists</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -38,7 +40,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/cardiology.png') }}" alt="Cardiologist"></div>
         <h3>Cardiologists</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -46,7 +50,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/neurology.png') }}" alt="Neurologist"></div>
         <h3>Neurologists</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -54,7 +60,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/pediatrics.png') }}" alt="Pediatrician"></div>
         <h3>Pediatricians</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -62,7 +70,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/orthopedic.png') }}" alt="Orthopedic"></div>
         <h3>Orthopedics</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -70,7 +80,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/general.png') }}" alt="General Physician"></div>
         <h3>General Physicians</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -78,7 +90,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/ent.png') }}" alt="ENT Specialist"></div>
         <h3>ENT Specialists</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -86,7 +100,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/gynecology.png') }}" alt="Gynecologist"></div>
         <h3>Gynecologists</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -94,7 +110,9 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/ophthalmology.png') }}" alt="Ophthalmologist"></div>
         <h3>Ophthalmologists</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 
@@ -102,18 +120,23 @@
         <div class="img-container"><img src="{{ url_for('static', filename='assets/psychiatry.png') }}" alt="Psychiatrist"></div>
         <h3>Psychiatrists</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
      <div class="domain-card" data-domain="Other Domains">
         <div class="img-container"><img src="{{ url_for('static', filename='assets/other.png') }}" alt="Other Domains"></div>
         <h3>Other Domains</h3>
         <div class="doctor-container"></div>
+        {% if current_user.is_authenticated and current_user.role == 'Doctor' %}
         <button class="add-doctor-btn">Add Doctor</button>
+        {% endif %}
         <button class="view-doctors-btn">View Doctors</button>
     </div>
 </section>
 
+<!-- Add Doctor Modal -->
 <div id="doctorFormModal" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
@@ -124,21 +147,22 @@
         <input type="number" id="docExperience" placeholder="Years of Experience" required>
         <input type="text" id="docSpecialization" placeholder="Your Specialization" required>
         <input type="text" id="docDomain" placeholder="Domain/Department" required>
+        <input type="text" id="docHospitalName" placeholder="Hospital Name" required>
+        <input type="text" id="docHospitalLocation" placeholder="Hospital Location (e.g., City)" required>
         <input type="text" id="docContact" placeholder="Contact Number" required>
         <input type="url" id="docImage" placeholder="Profile Image URL" required>
         <button type="submit">Add Doctor</button>
     </form>
   </div>
+</div>
 
-  <div id="viewDoctorsModal" class="modal">
+<!-- View Doctors Modal -->
+<div id="viewDoctorsModal" class="modal">
   <div class="modal-content">
     <span class="close" id="closeViewDoctors">&times;</span>
     <h2>Doctors</h2>
     <div id="viewDoctorsContainer"></div>
   </div>
-</div>
-
-  
 </div>
 
 <script src="{{ url_for('static', filename='doctor.js') }}"></script>

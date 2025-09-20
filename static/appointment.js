@@ -35,16 +35,22 @@ document.addEventListener("DOMContentLoaded", () => {
             const filteredDoctors = doctorsData.filter(d => d.domain === selectedDomain);
             filteredDoctors.forEach(doc => {
                 const option = document.createElement("option");
-                option.value = doc.name;
-                option.textContent = doc.name;
+                // Store the entire doctor object as a JSON string
+                option.value = JSON.stringify(doc);
+                option.textContent = `Dr. ${doc.name} (${doc.hospitalName})`;
                 doctorSelect.appendChild(option);
             });
         }
     });
 
-    // --- NEW: AI Scheduling Logic ---
+    // --- AI Scheduling Logic ---
     async function getAiSuggestions() {
-        const doctorName = doctorSelect.value;
+        if (!doctorSelect.value) {
+            suggestionsBox.classList.add('hidden');
+            return;
+        }
+        const selectedDoctor = JSON.parse(doctorSelect.value);
+        const doctorName = selectedDoctor.name;
         const date = dateInput.value;
 
         if (!doctorName || !date) {
@@ -68,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function displaySuggestions(suggestions) {
         suggestionsContainer.innerHTML = ''; // Clear old suggestions
         if (suggestions.length === 0) {
-            suggestionsContainer.innerHTML = '<p>No available slots for this day.</p>';
+            suggestionsContainer.innerHTML = '<p>No AI-suggested slots for this day. Please pick a time manually.</p>';
         } else {
             suggestions.forEach(slot => {
                 const btn = document.createElement('button');
@@ -95,12 +101,18 @@ document.addEventListener("DOMContentLoaded", () => {
         confirmation.textContent = "Booking...";
         confirmation.style.color = 'orange';
 
+        const selectedDoctor = JSON.parse(doctorSelect.value);
+        const appointmentType = document.getElementById("appointmentType").value;
+
         const appointmentData = {
-            doctorName: doctorSelect.value,
-            appointmentType: document.getElementById("appointmentType").value,
+            doctorName: selectedDoctor.name,
+            appointmentType: appointmentType,
             date: dateInput.value,
             time: timeInput.value,
             additionalNotes: document.getElementById("additionalNotes").value,
+            // Add hospital details if it's an offline appointment
+            hospitalName: appointmentType === 'Offline' ? selectedDoctor.hospitalName : null,
+            hospitalLocation: appointmentType === 'Offline' ? selectedDoctor.hospitalLocation : null,
         };
 
         fetch('/api/appointments', {
@@ -111,10 +123,14 @@ document.addEventListener("DOMContentLoaded", () => {
             .then(response => response.json())
             .then(data => {
                 if (data.error) throw new Error(data.error);
-                confirmation.textContent = data.message;
+                let successMessage = data.message;
+                if (appointmentType === 'Offline') {
+                    successMessage += ` Please visit ${selectedDoctor.hospitalName} in ${selectedDoctor.hospitalLocation}.`;
+                }
+                confirmation.textContent = successMessage;
                 confirmation.style.color = 'green';
                 document.getElementById("appointmentForm").reset();
-                suggestionsBox.classList.add('hidden'); // Hide suggestions after booking
+                suggestionsBox.classList.add('hidden');
             })
             .catch(error => {
                 confirmation.textContent = `Error: ${error.message}`;
